@@ -39,7 +39,8 @@ def find_last_fn_pickle(prefix, path_files):
 def find_last_file (path_files, prefix, suffix = '.pickle'):
     fn = None
     if prefix is None: prefix =''
-    fn_list = sorted(glob.glob(path_files + prefix + '*' + suffix))
+    # fn_list = sorted(glob.glob(path_files + prefix + '*' + suffix))
+    fn_list = sorted(glob.glob(os.path.join(path_files, prefix + '*' + suffix)))
     if len(fn_list)>0:  fn = fn_list[-1]
     return fn
 
@@ -80,9 +81,10 @@ def get_humanize_filesize(path, fn):
         human_file_size = humanize.naturalsize(file_size)
     return human_file_size
 
-def exract_esklp_date(fn):
+def exract_esklp_date(fn, prefix):
     if fn is None: return None
-    m = re.search(r"(?<=esklp_)\d+", fn)
+    # m = re.search(r"(?<=esklp_)\d+", fn)
+    m = re.search(fr"(?<={prefix}_)\d+", fn)
     if m is not None:
         esklp_date = m.group()
         # print(f"esklp_date: {esklp_date}")
