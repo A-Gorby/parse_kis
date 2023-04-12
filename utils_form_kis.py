@@ -46,4 +46,35 @@ def on_sheet_name_drop_down_change(change):
     df = pd.read_excel(os.path.join(data_kis_source_dir, fn_kis_file_drop_down.value), sheet_name=change.new) #cols_lst
     cols_lst = list(df.columns)
     # print(cols_lst)
-    col_name_drop_down.options = cols_lst      
+    col_name_drop_down.options = cols_lst
+
+def form_param_kis_upd(fn_list):
+    fn_kis_file_drop_douwn_upd = widgets.Dropdown( options=fn_list, value=None) #fn_list[0] if len(fn_list) > 0 else None, disabled=False)
+    sheet_name_drop_down_upd = widgets.Dropdown( options= [None], value= None, disabled=False)
+    col_name_drop_down_upd = widgets.Dropdown( options= [None], value= None, disabled=False)
+    corr_cols_name = ['tn_correct', 'pharm_form_type_correct', 'dosage_parsing_value_str_correct', 'vol_correct/vol_unit_correct']
+    cols_name_corr_drop_down = widgets.SelectMultiple( options=corr_cols_name, value= [corr_cols_name[0]], disabled=False) 
+
+    form_item_layout = Layout(display='flex', flex_flow='row', justify_content='space-between')
+    fn_select_box = Box([Label(value="Выберите Excel-файл с данными КИС:"), fn_kis_file_drop_douwn_upd], layout=form_item_layout) 
+    sheet_select_box = Box([Label(value='Выберите лист Excel-файла:'), sheet_name_drop_down_upd], layout=form_item_layout) 
+    column_select_box = Box([Label(value='Выберите колонку с наименование ЛП из КИС:'), col_name_drop_down_upd], layout=form_item_layout) 
+    column_corr_select_box = Box([Label(value='Выберите колонки для корректировки:'), cols_name_corr_drop_down], layout=form_item_layout) 
+
+    form_items = [fn_select_box, sheet_select_box, column_select_box, column_corr_select_box] 
+    
+    form_kis_upd = Box(form_items, layout=Layout(display='flex', flex_flow= 'column', border='solid 2px', align_items='stretch', width='50%')) #width='auto'))
+   
+    return form_kis_upd, fn_kis_file_drop_douwn_upd, sheet_name_drop_down_upd, col_name_drop_down_upd, cols_name_corr_drop_down
+    
+def on_fn_kis_file_drop_down_upd_change(change):
+    global sheet_name_drop_down_upd, data_kis_source_dir
+    xl = pd.ExcelFile(os.path.join(data_kis_source_dir, change.new))
+    sheet_lst = list(xl.sheet_names)
+    sheet_name_drop_down_upd.options = sheet_lst 
+def on_sheet_name_drop_down_upd_change(change):
+    global fn_kis_file_drop_down_upd, sheet_name_drop_down_upd, col_name_drop_down_upd, data_kis_source_dir
+    df = pd.read_excel(os.path.join(data_kis_source_dir, fn_kis_file_drop_down_upd.value), sheet_name=change.new, nrows=5) #cols_lst
+    cols_lst = list(df.columns)
+    # print(cols_lst)
+    col_name_drop_down_upd.options = cols_lst        
