@@ -7452,12 +7452,18 @@ def init_parse_kis(klp_list_dict_df_in, smnn_list_df_in, path_supp_dicts):
 
     
     fn_dict = "dict_tn_lat_ext__tn_ru_ext.json"
+    if not os.path.exists(os.path.join(path_supp_dicts, fn_dict)):
+        logger.error(f"Не найден справочник '{fn_dict}' в лиректории '{path_supp_dicts}'")
+        sys.exit(2)
     # !cp "/content/drive/MyDrive/Colab Notebooks/__work/_A_Pav_Helth/Parsing/data/new_dict/""$fn_dict" "$fn_dict"
     with open(os.path.join(path_supp_dicts, fn_dict), "r") as f:
         dict__tn_lat_ext__tn_ru_ext = json.load(f) 
     
     
     fn_dict = "dict__tn_lat_ext__tn_ru_orig.json"
+    if not os.path.exists(os.path.join(path_supp_dicts, fn_dict)):
+        logger.error(f"Не найден справочник '{fn_dict}' в лиректории '{path_supp_dicts}'")
+        sys.exit(2)
     # !cp "/content/drive/MyDrive/Colab Notebooks/__work/_A_Pav_Helth/Parsing/data/new_dict/""$fn_dict"  "$fn_dict" 
     with open(os.path.join(path_supp_dicts, fn_dict), "r") as f:
         dict__tn_lat_ext__tn_ru_orig = json.load(f ) 
@@ -7465,6 +7471,9 @@ def init_parse_kis(klp_list_dict_df_in, smnn_list_df_in, path_supp_dicts):
 
     
     fn_dict = "dict__tn_lat__tn_ru_orig.json"
+    if not os.path.exists(os.path.join(path_supp_dicts, fn_dict)):
+        logger.error(f"Не найден справочник '{fn_dict}' в лиректории '{path_supp_dicts}'")
+        sys.exit(2)
     # !cp "/content/drive/MyDrive/Colab Notebooks/__work/_A_Pav_Helth/Parsing/data/new_dict/""$fn_dict"  "$fn_dict" 
     with open(os.path.join(path_supp_dicts, fn_dict), "r") as f:
         dict__tn_lat__tn_ru_orig = json.load(f )         
